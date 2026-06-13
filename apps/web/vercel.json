@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && turbo run build --filter=@acme/web",
+  "buildCommand": "cd ../.. && pnpm db:migrate:deploy && turbo run build --filter=@acme/web",
   "ignoreCommand": "npx turbo-ignore --fallback=HEAD^1"
 }
