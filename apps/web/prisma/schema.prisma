@@ -25,6 +25,9 @@ model User {
   accounts Account[]
   sessions Session[]
 
+  habits         Habit[]
+  journalEntries JournalEntry[]
+
   @@map("users")
 }
 
@@ -84,4 +87,59 @@ model Verification {
   updatedAt DateTime @updatedAt
 
   @@map("verifications")
+}
+
+model Habit {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?
+  icon        String? // emoji or icon name
+  color       String? // hex / theme token
+
+  weeklyTarget Int? // optional "X times per week" goal; null = just daily
+
+  sortOrder  Int       @default(0)
+  archivedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  logs HabitLog[]
+
+  @@index([userId])
+  @@map("habits")
+}
+
+model HabitLog {
+  id      String @id @default(cuid())
+  habitId String
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  date DateTime @db.Date
+  note String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([habitId, date])
+  @@index([habitId, date])
+  @@map("habit_logs")
+}
+
+model JournalEntry {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  date    DateTime @db.Date
+  title   String?
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, date])
+  @@map("journal_entries")
 }

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@acme/components": "workspace:*",
+    "@acme/forms": "workspace:*",
     "@acme/hooks": "workspace:*",
     "@acme/marketing": "workspace:*",
     "@acme/seo": "workspace:*",
@@ -44,6 +45,7 @@
     "rate-limiter-flexible": "^11.1.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
+    "react-hook-form": "^7.77.0",
     "react-icons": "^5.6.0",
     "schema-dts": "^2.0.0",
     "sharp": "^0.34.5",
