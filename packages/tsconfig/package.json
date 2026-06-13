@@ -1,0 +1,9 @@
+{
+  "name": "@acme/tsconfig",
+  "private": true,
+  "version": "0.0.0",
+  "exports": {
+    "./node.json": "./node.json",
+    "./next.json": "./next.json"
+  }
+}

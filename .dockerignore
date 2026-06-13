@@ -1,0 +1,46 @@
+# Node
+node_modules
+**/node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Next build output
+.next
+**/.next
+out
+.turbo
+
+# Logs & temp files
+*.log
+logs
+tmp
+temp
+.cache
+
+# Local env & secrets
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Editors & system files
+.vscode
+.idea
+.cursor
+.github
+.husky
+.DS_Store
+*.swp
+
+# Docker crap
+Dockerfile*
+compose.yml
+
+# Data
+data

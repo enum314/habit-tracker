@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "organization": "Project zhyporium",
+  "date": "February 2026",
+  "abstract": "Conventions and patterns for building and migrating forms in this project using shadcn Field components, React Hook Form, and Zod. Defines canonical imports, layout, accessibility, and migration steps from the legacy Form API to the Field-based pattern.",
+  "references": [
+    "https://ui.shadcn.com/docs/forms/react-hook-form",
+    "https://react-hook-form.com",
+    "https://zod.dev"
+  ]
+}
+

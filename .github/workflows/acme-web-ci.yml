@@ -1,0 +1,97 @@
+name: Acme Web CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/web/**"
+      - "packages/**"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "turbo.json"
+      - ".github/actions/setup-monorepo/**"
+      - ".github/workflows/acme-web-ci.yml"
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+    paths:
+      - "apps/web/**"
+      - "packages/**"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "turbo.json"
+      - ".github/actions/setup-monorepo/**"
+      - ".github/workflows/acme-web-ci.yml"
+
+concurrency:
+  group: acme-web-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre_ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Get commit message
+        id: get_commit_message
+        run: |
+          commit_msg=$(git log -1 --pretty=%B | tr -d '\r' | tr '\n' ' ')
+          echo "COMMIT_MSG=$commit_msg" >> $GITHUB_OUTPUT
+          echo "Commit message: $commit_msg"
+
+    outputs:
+      commit_message: ${{ steps.get_commit_message.outputs.COMMIT_MSG }}
+
+  verify:
+    needs: pre_ci
+    name: Verify - Web
+    runs-on: ubuntu-latest
+    if: "(!contains(needs.pre_ci.outputs.commit_message, '[skip ci]') && !contains(needs.pre_ci.outputs.commit_message, 'chore(release): '))"
+    env:
+      SKIP_ENV_VALIDATION: "1"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup monorepo
+        uses: ./.github/actions/setup-monorepo
+
+      - name: Generate Prisma client
+        run: pnpm --filter @acme/web db:generate
+
+      - name: Format check
+        if: "!contains(needs.pre_ci.outputs.commit_message, '[skip format]')"
+        run: pnpm --filter @acme/web format:check
+
+      - name: Lint
+        if: "!contains(needs.pre_ci.outputs.commit_message, '[skip lint]')"
+        run: pnpm --filter @acme/web lint
+
+      - name: Cache Next.js cache
+        if: "!contains(needs.pre_ci.outputs.commit_message, '[skip test]')"
+        uses: actions/cache@v4
+        with:
+          path: apps/web/.next/cache
+          key: ${{ runner.os }}-nextjs-web-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('apps/web/**/*.{js,jsx,ts,tsx}') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-web-${{ hashFiles('pnpm-lock.yaml') }}-
+
+      - name: Build
+        if: "!contains(needs.pre_ci.outputs.commit_message, '[skip test]')"
+        run: pnpm turbo run build --filter=@acme/web
+        env:
+          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+          BETTER_AUTH_SECRET: "ci-build-secret-minimum-32-characters"
+
+      - name: Test
+        if: "!contains(needs.pre_ci.outputs.commit_message, '[skip test]')"
+        run: pnpm --filter @acme/web test

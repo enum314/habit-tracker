@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/marketing",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "prettier": "@acme/prettier-config/next",
+  "exports": {
+    "./config/tailwind-colors": "./src/config/tailwind-colors.ts",
+    "./shell": "./src/components/shell.tsx",
+    "./callout": "./src/components/callout.tsx",
+    "./button-link": "./src/components/button-link.tsx",
+    "./page-header": "./src/components/page-header.tsx",
+    "./screenshot": "./src/components/screenshot.tsx",
+    "./color": "./src/components/color.tsx",
+    "./empty-placeholder": "./src/components/empty-placeholder.tsx",
+    "./app-icon": "./src/components/app-icon.tsx",
+    "./theme-switcher": "./src/components/theme-switcher.tsx",
+    "./smooth-scroll": "./src/components/smooth-scroll.tsx",
+    "./analytics": "./src/components/analytics.tsx"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "format:write": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "peerDependencies": {
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "dependencies": {
+    "@acme/components": "workspace:*",
+    "@acme/hooks": "workspace:*",
+    "@acme/utils": "workspace:*",
+    "class-variance-authority": "^0.7.1",
+    "lenis": "^1.3.23",
+    "lucide-react": "^1.17.0",
+    "next-themes": "^0.4.6",
+    "react-icons": "^5.6.0"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/react": "19.2.16",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^10.4.1",
+    "prettier": "^3.8.3",
+    "next": "16.2.7",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "typescript": "^6.0.3"
+  }
+}

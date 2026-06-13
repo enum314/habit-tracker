@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@source "../../../../packages/components/src/**/*.{ts,tsx}";
+
+@import "@daveyplate/better-auth-ui/css";
+@import "@acme/themes/base.css";

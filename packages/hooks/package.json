@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@acme/hooks",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "prettier": "@acme/prettier-config/next",
+  "exports": {
+    "./use-debounce": "./src/use-debounce.ts",
+    "./use-mounted": "./src/use-mounted.ts",
+    "./use-mobile": "./src/use-mobile.ts",
+    "./use-forwarded-ref": "./src/use-forwarded-ref.ts",
+    "./use-debounced-callback": "./src/use-debounced-callback.ts",
+    "./use-callback-ref": "./src/use-callback-ref.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "format:write": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "peerDependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/react": "19.2.16",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^10.4.1",
+    "prettier": "^3.8.3",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "typescript": "^6.0.3"
+  }
+}

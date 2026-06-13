@@ -1,0 +1,121 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "CI",
+    "SKIP_ENV_VALIDATION",
+    "NEXT_TELEMETRY_DISABLED",
+    "VERCEL",
+    "VERCEL_ENV",
+    "VERCEL_URL"
+  ],
+  "tasks": {
+    "db:generate": {
+      "cache": false,
+      "outputs": [
+        "src/generated/**",
+        "src/server/prisma/**"
+      ],
+      "env": [
+        "DIRECT_URL"
+      ]
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "DIRECT_URL",
+        "DATABASE_URL"
+      ]
+    },
+    "db:migrate:deploy": {
+      "cache": false,
+      "env": [
+        "DIRECT_URL",
+        "DATABASE_URL"
+      ]
+    },
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        ".source/**",
+        "dist/**"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "next.config.ts",
+        "eslint.config.mjs",
+        ".env"
+      ]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ]
+    },
+    "lint": {},
+    "typecheck": {
+      "dependsOn": [
+        "^typecheck"
+      ]
+    },
+    "format:check": {},
+    "format:write": {
+      "cache": false
+    },
+    "test": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "@acme/web#build": {
+      "dependsOn": [
+        "^build",
+        "db:generate"
+      ],
+      "env": [
+        "NEXT_PUBLIC_APP_URL",
+        "NEXT_PUBLIC_ANALYTICS_ID",
+        "NEXT_PUBLIC_ANALYTICS_SCRIPT_URL",
+        "NODE_ENV",
+        "DIRECT_URL",
+        "DATABASE_URL",
+        "REDIS_URL",
+        "BETTER_AUTH_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET"
+      ]
+    },
+    "@acme/web#dev": {
+      "env": [
+        "NEXT_PUBLIC_APP_URL",
+        "NEXT_PUBLIC_ANALYTICS_ID",
+        "NEXT_PUBLIC_ANALYTICS_SCRIPT_URL",
+        "NODE_ENV",
+        "DIRECT_URL",
+        "DATABASE_URL",
+        "REDIS_URL",
+        "BETTER_AUTH_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET"
+      ]
+    },
+    "@acme/web#lint": {
+      "dependsOn": [
+        "db:generate"
+      ]
+    },
+    "@acme/web#typecheck": {
+      "dependsOn": [
+        "^typecheck",
+        "db:generate"
+      ]
+    }
+  }
+}

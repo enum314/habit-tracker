@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "css": "../../apps/web/src/styles/globals.css",
+    "baseColor": "slate",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@acme/components",
+    "utils": "@acme/utils/cn",
+    "ui": "@acme/components/ui",
+    "lib": "@acme/components/lib",
+    "hooks": "@acme/hooks"
+  },
+  "registries": {
+    "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
+    "@blocks": "https://blocks.so/r/{name}.json",
+    "@neobrutalism": "https://www.neobrutalism.dev/r/{name}.json",
+    "@smoothui": "https://smoothui.dev/r/{name}.json",
+    "@diceui": "https://diceui.com/r/{name}.json",
+    "@magicui": "https://magicui.design/r/{name}"
+  }
+}
